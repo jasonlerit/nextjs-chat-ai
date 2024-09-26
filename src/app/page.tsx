@@ -17,6 +17,13 @@ export default function Home() {
       prompt: "",
     },
     onSubmit: async ({ value }) => {
+      if (message.length !== 0) {
+        setMessages((pv) => [...pv, message]);
+        setMessage("");
+      }
+
+      setMessages((pv) => [...pv, value.prompt]);
+
       form.reset();
 
       const response = await fetch("/api/chat", {
@@ -51,7 +58,9 @@ export default function Home() {
       <div className="h-full flex flex-col">
         <div className="bg-slate-100 flex-1 flex flex-col gap-4 overflow-y-auto">
           {messages.map((message, index) => (
-            <div key={index}>{message}</div>
+            <div key={index}>
+              <p className="whitespace-pre">{message}</p>
+            </div>
           ))}
           <p className="whitespace-pre">{message}</p>
         </div>
