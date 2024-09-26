@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { LuLoader, LuSend } from "react-icons/lu";
 
 export default function Home() {
   const [messages, setMessages] = useState<string[]>([]);
@@ -44,7 +45,7 @@ export default function Home() {
           {message}
         </div>
         <Button onClick={() => handleSubmit()} disabled={loading}>
-          Test
+          {loading ? <LuLoader className="animate-spin" /> : <LuSend />}
         </Button>
       </div>
     </main>
