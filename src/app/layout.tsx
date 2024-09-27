@@ -1,3 +1,4 @@
+import { ReactQueryClientProvider } from "@/components/shared/react-query-client-provider"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
@@ -26,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+      </body>
     </html>
   )
 }
