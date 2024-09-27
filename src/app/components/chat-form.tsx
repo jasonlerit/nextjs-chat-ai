@@ -4,9 +4,28 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useChatStore } from "@/stores/use-chat-store"
 import { useForm } from "@tanstack/react-form"
+import { useMutation } from "@tanstack/react-query"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { LuLoader2, LuSend } from "react-icons/lu"
 import z from "zod"
+
+interface FormData {
+  prompt: string
+}
+
+async function sendChat(formData: FormData) {
+  const response = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+  if (!response.ok) {
+    throw new Error("Something went wrong")
+  }
+  return response.body
+}
 
 export const ChatForm = () => {
   const addMessage = useChatStore((state) => state.addMessage)
@@ -19,25 +38,21 @@ export const ChatForm = () => {
     onSubmit: async ({ value }) => {
       addMessage(value.prompt)
       addMessage("")
-
       form.reset()
+      mutation.mutate(value)
+    },
+    validatorAdapter: zodValidator(),
+  })
 
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: value.prompt,
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error("Something went wrong")
-      }
-
-      if (response.body !== null) {
-        const reader = response.body.getReader()
+  const mutation = useMutation({
+    mutationKey: ["prompt"],
+    mutationFn: sendChat,
+    onError: (error) => {
+      console.log("error", error)
+    },
+    onSuccess: async (data) => {
+      if (data !== null) {
+        const reader = data.getReader()
         while (true) {
           const { value, done } = await reader.read()
           if (done) break
@@ -46,7 +61,6 @@ export const ChatForm = () => {
         }
       }
     },
-    validatorAdapter: zodValidator(),
   })
 
   return (
@@ -75,14 +89,23 @@ export const ChatForm = () => {
               placeholder='How can I help you?'
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
+              disabled={mutation.isPending}
             />
           </div>
         )}
       </form.Field>
       <form.Subscribe selector={(state) => [state.canSubmit, state.isTouched, state.isSubmitting]}>
         {([canSubmit, isTouched, isSubmitting]) => (
-          <Button type='submit' disabled={!canSubmit || !isTouched} aria-label='submit button'>
-            {isSubmitting ? <LuLoader2 className='animate-spin' /> : <LuSend />}
+          <Button
+            type='submit'
+            disabled={!canSubmit || !isTouched || mutation.isPending}
+            aria-label='submit button'
+          >
+            {isSubmitting || mutation.isPending ? (
+              <LuLoader2 className='animate-spin' />
+            ) : (
+              <LuSend />
+            )}
           </Button>
         )}
       </form.Subscribe>
