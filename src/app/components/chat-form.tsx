@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { useChatStore } from "@/stores/use-chat-store"
+import { useChatStore } from "@/stores/use-chat.store"
 import { sendChat } from "@/utils/api"
 import { useForm } from "@tanstack/react-form"
 import { useMutation } from "@tanstack/react-query"

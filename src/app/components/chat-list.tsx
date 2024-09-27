@@ -1,6 +1,6 @@
 "use client"
 
-import { useChatStore } from "@/stores/use-chat-store"
+import { useChatStore } from "@/stores/use-chat.store"
 
 export const ChatList = () => {
   const messages = useChatStore((state) => state.messages)
