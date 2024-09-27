@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -6,25 +5,20 @@ import { Textarea } from "@/components/ui/textarea"
 import { useChatStore } from "@/stores/use-chat-store"
 import { useForm } from "@tanstack/react-form"
 import { zodValidator } from "@tanstack/zod-form-adapter"
-import { useState } from "react"
 import { LuLoader2, LuSend } from "react-icons/lu"
 import z from "zod"
 
 export const ChatForm = () => {
   const addMessage = useChatStore((state) => state.addMessage)
-  const [message, setMessage] = useState<string>("")
+  const setLastMessage = useChatStore((state) => state.setLastMessage)
 
   const form = useForm({
     defaultValues: {
       prompt: "",
     },
     onSubmit: async ({ value }) => {
-      if (message.length !== 0) {
-        addMessage(message)
-        setMessage("")
-      }
-
       addMessage(value.prompt)
+      addMessage("")
 
       form.reset()
 
@@ -48,7 +42,7 @@ export const ChatForm = () => {
           const { value, done } = await reader.read()
           if (done) break
           const chunk = new TextDecoder().decode(value)
-          setMessage((pv) => pv.concat(chunk))
+          setLastMessage(chunk)
         }
       }
     },
