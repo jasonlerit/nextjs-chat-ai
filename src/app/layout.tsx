@@ -1,9 +1,9 @@
+import { Navbar } from "@/components/shared/navbar"
 import { ReactQueryClientProvider } from "@/components/shared/react-query-client-provider"
+import { ThemeProvider } from "@/components/shared/theme-provider"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
-import { Navbar } from "@/components/shared/navbar"
-import { ThemeProvider } from "@/components/shared/theme-provider"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
