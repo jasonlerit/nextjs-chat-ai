@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
+import { useChatStore } from "@/stores/use-chat-store"
 import { useState } from "react"
 
 export const ChatList = () => {
-  const [messages, setMessages] = useState<string[]>([])
+  const messages = useChatStore((state) => state.messages)
   const [message, setMessage] = useState<string>("")
 
   return (

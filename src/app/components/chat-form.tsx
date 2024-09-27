@@ -3,6 +3,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useChatStore } from "@/stores/use-chat-store"
 import { useForm } from "@tanstack/react-form"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { useState } from "react"
@@ -10,7 +11,7 @@ import { LuLoader2, LuSend } from "react-icons/lu"
 import z from "zod"
 
 export const ChatForm = () => {
-  const [messages, setMessages] = useState<string[]>([])
+  const addMessage = useChatStore((state) => state.addMessage)
   const [message, setMessage] = useState<string>("")
 
   const form = useForm({
@@ -19,11 +20,11 @@ export const ChatForm = () => {
     },
     onSubmit: async ({ value }) => {
       if (message.length !== 0) {
-        setMessages((pv) => [...pv, message])
+        addMessage(message)
         setMessage("")
       }
 
-      setMessages((pv) => [...pv, value.prompt])
+      addMessage(value.prompt)
 
       form.reset()
 
