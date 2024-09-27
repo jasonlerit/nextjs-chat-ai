@@ -1,11 +1,11 @@
-import OpenAI from "openai";
+import OpenAI from "openai"
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-});
+})
 
 export async function POST(req: Request) {
-  const { prompt } = await req.json();
+  const { prompt } = await req.json()
 
   const stream = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -17,17 +17,17 @@ export async function POST(req: Request) {
       },
     ],
     stream: true,
-  });
+  })
 
   const readableStream = new ReadableStream({
     async start(controller) {
       for await (const chunk of stream) {
-        const choice = chunk.choices[0];
-        controller.enqueue(choice.delta.content ?? "");
+        const choice = chunk.choices[0]
+        controller.enqueue(choice.delta.content ?? "")
       }
-      controller.close();
+      controller.close()
     },
-  });
+  })
 
-  return new Response(readableStream);
+  return new Response(readableStream)
 }
