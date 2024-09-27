@@ -3,29 +3,12 @@
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useChatStore } from "@/stores/use-chat-store"
+import { sendChat } from "@/utils/api"
 import { useForm } from "@tanstack/react-form"
 import { useMutation } from "@tanstack/react-query"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { LuLoader2, LuSend } from "react-icons/lu"
 import z from "zod"
-
-interface FormData {
-  prompt: string
-}
-
-async function sendChat(formData: FormData) {
-  const response = await fetch("/api/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-  if (!response.ok) {
-    throw new Error("Something went wrong")
-  }
-  return response.body
-}
 
 export const ChatForm = () => {
   const addMessage = useChatStore((state) => state.addMessage)
