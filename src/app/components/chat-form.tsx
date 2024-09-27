@@ -51,6 +51,7 @@ export const ChatForm = () => {
 
   return (
     <form
+      className='container mx-auto lg:max-w-4xl flex items-start gap-2 px-4'
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()
