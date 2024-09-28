@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useChatStore } from "@/stores/use-chat.store"
+import { Role } from "@/types/role.type"
 import { sendChat } from "@/utils/api"
 import { useForm } from "@tanstack/react-form"
 import { useMutation } from "@tanstack/react-query"
@@ -19,8 +20,14 @@ export const ChatForm = () => {
       prompt: "",
     },
     onSubmit: async ({ value }) => {
-      addMessage(value.prompt)
-      addMessage("")
+      addMessage({
+        role: Role.USER,
+        content: value.prompt,
+      })
+      addMessage({
+        role: Role.ASSISTANT,
+        content: "",
+      })
       form.reset()
       mutation.mutate(value)
     },
