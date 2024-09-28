@@ -2,15 +2,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
 import { Message } from "@/types/message.type"
 import { Role } from "@/types/role.type"
-import { memo } from "react"
+import { LegacyRef, memo } from "react"
 
 interface Props {
+  messageRef?: LegacyRef<HTMLDivElement>
   message: Message
 }
 
-export const ChatMessage = memo(function ChatMessage({ message }: Props) {
+export const ChatMessage = memo(function ChatMessage({ messageRef, message }: Props) {
   return (
     <Card
+      ref={messageRef}
       className={`${message.role === Role.USER ? "max-w-[90%] lg:max-w-[80%] self-end bg-primary text-primary-foreground" : "border-none shadow-none"}`}
     >
       <CardContent className='flex gap-4 p-4'>
