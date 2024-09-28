@@ -1,5 +1,6 @@
 "use client"
 
+import { Card, CardContent } from "@/components/ui/card"
 import { useChatStore } from "@/stores/use-chat.store"
 
 export const ChatList = () => {
@@ -9,9 +10,11 @@ export const ChatList = () => {
     <div className='flex-1 overflow-y-auto'>
       <div className='container mx-auto lg:max-w-4xl flex flex-col gap-4 px-4'>
         {messages.map((message, index) => (
-          <div key={index}>
-            <p className='whitespace-pre text-wrap'>{message}</p>
-          </div>
+          <Card key={index} className='w-11/12 lg:w-3/4'>
+            <CardContent className='p-4'>
+              <p className='whitespace-pre text-wrap'>{message}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
