@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/hooks/use-toast"
 import { useChatStore } from "@/stores/use-chat.store"
 import { Role } from "@/types/role.type"
 import { sendChat } from "@/utils/api"
@@ -37,8 +38,13 @@ export const ChatForm = () => {
   const mutation = useMutation({
     mutationKey: ["prompt"],
     mutationFn: sendChat,
-    onError: (error) => {
-      console.log("error", error)
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      })
+      setLastMessage("Uh oh! Something went wrong.")
     },
     onSuccess: async (data) => {
       if (data !== null) {

@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/shared/navbar"
 import { ReactQueryClientProvider } from "@/components/shared/react-query-client-provider"
 import { ThemeProvider } from "@/components/shared/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
@@ -38,6 +39,7 @@ export default function RootLayout({
         >
           <Navbar />
           <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
