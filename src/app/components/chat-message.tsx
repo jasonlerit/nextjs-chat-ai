@@ -11,7 +11,7 @@ interface Props {
 export const ChatMessage = memo(function ChatMessage({ message }: Props) {
   return (
     <Card
-      className={`w-11/12 lg:w-3/4 ${message.role === Role.USER ? "self-end bg-primary text-primary-foreground" : "border-none shadow-none"}`}
+      className={`${message.role === Role.USER ? "max-w-[90%] lg:max-w-[80%] self-end bg-primary text-primary-foreground" : "border-none shadow-none"}`}
     >
       <CardContent className='flex gap-4 p-4'>
         {message.role === Role.ASSISTANT && (
