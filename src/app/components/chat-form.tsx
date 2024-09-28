@@ -59,6 +59,13 @@ export const ChatForm = () => {
     },
   })
 
+  const handleOnKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault()
+      form.handleSubmit()
+    }
+  }
+
   return (
     <form
       className='container mx-auto lg:max-w-4xl flex items-start gap-2 px-4'
@@ -79,13 +86,17 @@ export const ChatForm = () => {
         {(field) => (
           <div className='w-full flex flex-col gap-1'>
             <Textarea
-              className='w-full resize-none'
+              className='w-full resize-none min-h-10'
               name={field.name}
               value={field.state.value}
               placeholder='How can I help you?'
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
+              onKeyDown={handleOnKeyDown}
               disabled={mutation.isPending}
+              rows={1}
+              autoResize
+              maxHeight={116}
             />
           </div>
         )}
