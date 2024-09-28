@@ -1,10 +1,10 @@
 import { z } from "zod"
 
-export const suggestionSchema = z.object({
+export const SuggestionSchema = z.object({
   task: z.string(),
   detail: z.string(),
 })
 
-export const suggestionListSchema = z.object({
-  data: z.array(suggestionSchema),
+export const SuggestionListSchema = z.object({
+  data: z.array(SuggestionSchema),
 })

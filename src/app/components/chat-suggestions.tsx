@@ -1,24 +1,38 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
+import { toast } from "@/hooks/use-toast"
+import { useChatStore } from "@/stores/use-chat.store"
+import { getSuggestions } from "@/utils/api"
+import { useQuery } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 export const ChatSuggestions = () => {
-  return (
+  const messages = useChatStore((state) => state.messages)
+
+  const { data, error } = useQuery({
+    queryKey: ["suggestions"],
+    queryFn: getSuggestions,
+  })
+
+  useEffect(() => {
+    if (error !== null) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Failed to retrieve suggestions.",
+      })
+    }
+  }, [error])
+
+  return messages.length === 0 ? (
     <div className='container mx-auto lg:max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-2 px-4'>
-      <Button variant='outline' className='h-auto flex flex-col text-left'>
-        <div className='w-full overflow-hidden font-semibold'>Task 1</div>
-        <div className='w-full text-muted-foreground text-wrap'>Detail 1</div>
-      </Button>
-      <Button variant='outline' className='h-auto flex flex-col text-left'>
-        <div className='w-full overflow-hidden font-semibold'>Task 2</div>
-        <div className='w-full text-muted-foreground text-wrap'>Detail 2</div>
-      </Button>
-      <Button variant='outline' className='h-auto flex flex-col text-left'>
-        <div className='w-full overflow-hidden font-semibold'>Task 3</div>
-        <div className='w-full text-muted-foreground text-wrap'>Detail 3</div>
-      </Button>
-      <Button variant='outline' className='h-auto flex flex-col text-left'>
-        <div className='w-full overflow-hidden font-semibold'>Task 4</div>
-        <div className='w-full text-muted-foreground text-wrap'>Detail 4</div>
-      </Button>
+      {data?.map((suggestion, index) => (
+        <Button key={index} variant='outline' className='h-auto flex flex-col text-left'>
+          <div className='w-full overflow-hidden font-semibold'>{suggestion.task}</div>
+          <div className='w-full text-muted-foreground text-wrap'>{suggestion.detail}</div>
+        </Button>
+      ))}
     </div>
-  )
+  ) : null
 }

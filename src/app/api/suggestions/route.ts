@@ -1,4 +1,4 @@
-import { suggestionListSchema } from "@/utils/schema"
+import { SuggestionListSchema } from "@/utils/schema"
 import OpenAI from "openai"
 import { zodResponseFormat } from "openai/helpers/zod"
 
@@ -30,7 +30,7 @@ export async function GET() {
         `,
       },
     ],
-    response_format: zodResponseFormat(suggestionListSchema, "suggestions"),
+    response_format: zodResponseFormat(SuggestionListSchema, "suggestions"),
   })
 
   const result = completions.choices[0].message.parsed
