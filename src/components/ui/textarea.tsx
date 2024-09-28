@@ -3,7 +3,6 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { useAutoResizeTextarea } from "@/hooks/use-auto-resize-textarea"
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   autoResize?: boolean
@@ -12,7 +11,19 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, autoResize = false, maxHeight, ...props }, ref) => {
-    const { textAreaRef } = useAutoResizeTextarea(ref, autoResize, maxHeight)
+    const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null)
+
+    React.useImperativeHandle(ref, () => textAreaRef.current!)
+
+    React.useEffect(() => {
+      if (textAreaRef.current && autoResize) {
+        if (maxHeight && textAreaRef.current.scrollHeight > maxHeight) {
+          return
+        }
+        textAreaRef.current.style.height = "auto"
+        textAreaRef.current.style.height = textAreaRef.current?.scrollHeight + "px"
+      }
+    }, [props.value, textAreaRef, autoResize, maxHeight])
 
     return (
       <textarea
