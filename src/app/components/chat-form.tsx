@@ -2,19 +2,16 @@
 
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/hooks/use-toast"
+import { useSendChatMutation } from "@/hooks/use-send-chat-mutation"
 import { useChatStore } from "@/stores/use-chat.store"
 import { Role } from "@/types/role.type"
-import { sendChat } from "@/utils/api"
 import { useForm } from "@tanstack/react-form"
-import { useMutation } from "@tanstack/react-query"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { LuLoader2, LuSend } from "react-icons/lu"
 import z from "zod"
 
 export const ChatForm = () => {
   const addMessage = useChatStore((state) => state.addMessage)
-  const setLastMessage = useChatStore((state) => state.setLastMessage)
 
   const form = useForm({
     defaultValues: {
@@ -35,29 +32,7 @@ export const ChatForm = () => {
     validatorAdapter: zodValidator(),
   })
 
-  const mutation = useMutation({
-    mutationKey: ["prompt"],
-    mutationFn: sendChat,
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-      })
-      setLastMessage("Uh oh! Something went wrong.")
-    },
-    onSuccess: async (data) => {
-      if (data !== null) {
-        const reader = data.getReader()
-        while (true) {
-          const { value, done } = await reader.read()
-          if (done) break
-          const chunk = new TextDecoder().decode(value)
-          setLastMessage(chunk)
-        }
-      }
-    },
-  })
+  const mutation = useSendChatMutation()
 
   const handleOnKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
