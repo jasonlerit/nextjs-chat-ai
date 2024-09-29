@@ -1,10 +1,9 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useSendChatMutation } from "@/hooks/use-send-chat-mutation"
 import { toast } from "@/hooks/use-toast"
 import { useChatStore } from "@/stores/use-chat.store"
+import { useUserTokenStore } from "@/stores/use-user-token.store"
 import { Role } from "@/types/role.type"
 import { Suggestion } from "@/types/suggestion.type"
 import { getSuggestions } from "@/utils/api"
@@ -12,6 +11,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
 
 export const ChatSuggestions = () => {
+  const userToken = useUserTokenStore((state) => state.userToken)
   const messages = useChatStore((state) => state.messages)
   const addMessage = useChatStore((state) => state.addMessage)
 
@@ -43,6 +43,7 @@ export const ChatSuggestions = () => {
       content: "",
     })
     mutation.mutate({
+      userToken,
       prompt,
     })
   }

@@ -1,9 +1,8 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useSendChatMutation } from "@/hooks/use-send-chat-mutation"
 import { useChatStore } from "@/stores/use-chat.store"
+import { useUserTokenStore } from "@/stores/use-user-token.store"
 import { Role } from "@/types/role.type"
 import { useForm } from "@tanstack/react-form"
 import { zodValidator } from "@tanstack/zod-form-adapter"
@@ -11,10 +10,12 @@ import { LuLoader2, LuSend } from "react-icons/lu"
 import z from "zod"
 
 export const ChatForm = () => {
+  const userToken = useUserTokenStore((state) => state.userToken)
   const addMessage = useChatStore((state) => state.addMessage)
 
   const form = useForm({
     defaultValues: {
+      userToken,
       prompt: "",
     },
     onSubmit: async ({ value }) => {
