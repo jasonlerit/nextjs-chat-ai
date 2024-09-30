@@ -31,7 +31,7 @@
 - [Zustand](https://zustand-demo.pmnd.rs/)
 - [UUID](https://github.com/uuidjs/uuid)
 - [Redis](https://github.com/redis/node-redis)
-- [OpenAI](https://openai.com/)
+- [OpenAI API](https://openai.com/api/)
 
 ## 🌐 Environment Variables
 Make sure to set the following environment variables in your `.env.local` file:
