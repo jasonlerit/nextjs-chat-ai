@@ -10,7 +10,7 @@ export const Navbar = () => {
         <span className='font-bold'>Chat AI</span>
         <div className='flex items-center gap-1'>
           <Button asChild variant='ghost' size='icon' aria-label='github link'>
-            <Link href='https://github.com/jatnerubia/nextjs-chat-ai'>
+            <Link href='https://github.com/jasonlerit/nextjs-chat-ai'>
               <GitHubLogoIcon className='w-5 h-5' />
             </Link>
           </Button>
