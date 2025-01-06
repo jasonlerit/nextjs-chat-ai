@@ -29,7 +29,6 @@
 - [TanStack Query](https://tanstack.com/query/latest)
 - [TanStack Form](https://tanstack.com/form/latest)
 - [Zustand](https://zustand-demo.pmnd.rs/)
-- [UUID](https://github.com/uuidjs/uuid)
 - [Redis](https://github.com/redis/node-redis)
 - [OpenAI API](https://openai.com/api/)
 
