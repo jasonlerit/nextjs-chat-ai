@@ -44,7 +44,7 @@ REDIS_TTL=300
 ## ⚙️ Running the App Locally
 ### 1. Clone the repository:
 ```
-git clone https://github.com/jatnerubia/nextjs-chat-ai.git
+git clone https://github.com/jasonlerit/nextjs-chat-ai.git
 cd nextjs-chat-ai
 ```
 ### 2. Install dependencies:
